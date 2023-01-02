@@ -3,6 +3,7 @@ import type {AppProps} from 'next/app'
 import Script from "next/script";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
+import Head from "next/head";
 
 export default function App({Component, pageProps}: AppProps) {
 
@@ -23,6 +24,10 @@ export default function App({Component, pageProps}: AppProps) {
 
     return (
         <>
+            <Head>
+               <meta name={'robots'} content={'noindex, nofollow'}/>
+            </Head>
+
             <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-73W2T9ESVQ"/>
             <Script
                 id='google-analytics'
