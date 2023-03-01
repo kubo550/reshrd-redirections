@@ -2,18 +2,33 @@ import {getRedirectUrlByCodeId} from "../infrastructure/firebase";
 import {GetServerSidePropsContext} from "next";
 import Head from "next/head";
 import {useEffect} from "react";
+import {useRouter} from "next/router";
 
 export default function Code(props: { codeId: string, redirectUrl: string }) {
     const redirectUrl = props.redirectUrl;
     const title = `RESHRD - ${props.codeId}`;
 
+    const router = useRouter()
+
     useEffect(() => {
 
-        if (redirectUrl) {
-            window.location.href = redirectUrl;
-        }
+        import('react-facebook-pixel')
+            .then((x) => x.default)
+            .then((ReactPixel) => {
+                ReactPixel.init('3056518837981368')
+                ReactPixel.pageView()
 
-    },[redirectUrl]);
+                router.events.on('routeChangeComplete', () => {
+                    ReactPixel.pageView()
+                })
+
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            })
+
+    },[redirectUrl, router.events]);
+
 
     return (
         <>
